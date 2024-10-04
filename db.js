@@ -26,4 +26,6 @@ const UserModel = mongoose.model("user", UserSchema);
 
 const createUser = async (username) => await UserModel.create({ username });
 
-module.exports = { createUser };
+const findAllUsers = async () => await UserModel.find({});
+
+module.exports = { createUser, findAllUsers };

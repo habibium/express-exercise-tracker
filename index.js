@@ -3,13 +3,18 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const { createUser } = require("./db");
+const { createUser, findAllUsers } = require("./db");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
+});
+
+app.route("/api/users").get(async (_req, res) => {
+  const users = await findAllUsers();
+  res.json(users);
 });
 
 app.route("/api/users").post(async (req, res) => {
