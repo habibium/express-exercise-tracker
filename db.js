@@ -20,6 +20,13 @@ new DB();
 
 const UserSchema = mongoose.Schema({
   username: { type: String, required: true },
+  log: [
+    {
+      description: { type: String, required: true },
+      duration: { type: Number, required: true },
+      date: { type: Date, default: Date.now() },
+    },
+  ],
 });
 
 const UserModel = mongoose.model("user", UserSchema);
