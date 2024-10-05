@@ -33,7 +33,7 @@ app.route("/api/users/:_id/exercises").post(async (req, res) => {
   console.log("REQ BODY:", req.body);
   console.log();
   const { description, duration, date } = req.body;
-  const userDate = new Date(date || null);
+  const userDate = new Date(date || Date.now());
 
   const updatedUser = await findByIdAndUpdate(_id, {
     $push: {
