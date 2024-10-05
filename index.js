@@ -27,18 +27,32 @@ app.route("/api/users").post(async (req, res) => {
 });
 
 app.route("/api/users/:_id/exercises").post(async (req, res) => {
-  const { [":_id"]: _id, description, duration, date } = req.body;
+  console.log("~~~~~~~~~~~~~~~~~~~~~~");
+  const _id = req?.params?._id;
+  console.log("_id", _id);
+  console.log("REQ BODY:", req.body);
+  console.log();
+  const { description, duration, date } = req.body;
+  const userDate = new Date(date || null);
 
   const updatedUser = await findByIdAndUpdate(_id, {
     $push: {
-      log: { description, duration: +duration, date: date || Date.now() },
+      log: { description, duration: +duration, date: userDate },
     },
+  });
+
+  console.log("JSON", {
+    _id,
+    username: updatedUser?.username,
+    date: userDate.toDateString(),
+    duration: +duration,
+    description,
   });
 
   res.json({
     _id,
     username: updatedUser?.username,
-    date: updatedUser?.log?.at(-1)?.date?.toDateString(),
+    date: userDate?.toDateString(),
     duration: +duration,
     description,
   });
