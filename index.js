@@ -3,7 +3,12 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const { createUser, findAllUsers, findByIdAndUpdate } = require("./db");
+const {
+  createUser,
+  findAllUsers,
+  findByIdAndUpdate,
+  findById,
+} = require("./db");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -56,6 +61,12 @@ app.route("/api/users/:_id/exercises").post(async (req, res) => {
     duration: +duration,
     description,
   });
+});
+
+app.route("/api/users/:_id/logs").get(async (req, res) => {
+  const _id = req.params?._id;
+  const user = await findById(_id);
+  res.json(user);
 });
 
 app.listen(process.env.PORT || 3000, () => {
