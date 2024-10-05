@@ -38,4 +38,7 @@ const createUser = async (username) => await UserModel.create({ username });
 
 const findAllUsers = async () => await UserModel.find({});
 
-module.exports = { createUser, findAllUsers };
+const findByIdAndUpdate = async (_id, update) =>
+  await UserModel.findByIdAndUpdate(_id, update, { new: true });
+
+module.exports = { createUser, findAllUsers, findByIdAndUpdate };

@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
-const { createUser, findAllUsers } = require("./db");
+const { createUser, findAllUsers, findByIdAndUpdate } = require("./db");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,6 +23,24 @@ app.route("/api/users").post(async (req, res) => {
   res.json({
     username: newUser?.username,
     _id: newUser?._id,
+  });
+});
+
+app.route("/api/users/:_id/exercises").post(async (req, res) => {
+  const { [":_id"]: _id, description, duration, date } = req.body;
+
+  const updatedUser = await findByIdAndUpdate(_id, {
+    $push: {
+      log: { description, duration: +duration, date: date || Date.now() },
+    },
+  });
+
+  res.json({
+    _id,
+    username: updatedUser?.username,
+    date: updatedUser?.log?.at(-1)?.date?.toDateString(),
+    duration: +duration,
+    description,
   });
 });
 
