@@ -32,11 +32,7 @@ app.route("/api/users").post(async (req, res) => {
 });
 
 app.route("/api/users/:_id/exercises").post(async (req, res) => {
-  console.log("~~~~~~~~~~~~~~~~~~~~~~");
   const _id = req?.params?._id;
-  console.log("_id", _id);
-  console.log("REQ BODY:", req.body);
-  console.log();
   const { description, duration, date } = req.body;
   const userDate = new Date(date || Date.now());
 
@@ -44,14 +40,6 @@ app.route("/api/users/:_id/exercises").post(async (req, res) => {
     $push: {
       log: { description, duration: +duration, date: userDate },
     },
-  });
-
-  console.log("JSON", {
-    _id,
-    username: updatedUser?.username,
-    date: userDate.toDateString(),
-    duration: +duration,
-    description,
   });
 
   res.json({
