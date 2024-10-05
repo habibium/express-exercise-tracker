@@ -65,7 +65,11 @@ app.route("/api/users/:_id/exercises").post(async (req, res) => {
 
 app.route("/api/users/:_id/logs").get(async (req, res) => {
   const _id = req.params?._id;
-  const user = await findById(_id);
+  const user = await findById(_id, {
+    limit: req.query?.limit,
+    from: req.query?.from,
+    to: req.query?.to,
+  });
   res.json(user);
 });
 
